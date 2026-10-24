@@ -82,7 +82,7 @@ export default function Hero() {
             <span className="mr-2 text-sm text-gray-500">Let's connect</span>
 
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=umeshjha7890@gmail.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=umeshjha7890%40gmail.com"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Email Umesh"

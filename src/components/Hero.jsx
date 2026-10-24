@@ -82,9 +82,11 @@ export default function Hero() {
             <span className="mr-2 text-sm text-gray-500">Let's connect</span>
 
             <a
-              href="mailto:umeshjha7890@gmail.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=umeshjha7890@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Email Umesh"
-              title="Email"
+              title="Email me"
               className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-gray-400 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-300"
             >
               <Mail size={20} />

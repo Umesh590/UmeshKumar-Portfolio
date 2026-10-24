@@ -1,14 +1,10 @@
 import { useState } from "react";
-import {
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-  CheckCircle2,
-  ArrowUpRight,
-} from "lucide-react";
+import { Mail, MapPin, Phone, Send, ArrowUpRight } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+
 const EMAIL = "umeshjha7890@gmail.com";
+
+const GMAIL_COMPOSE_URL = "https://mail.google.com/mail/";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -19,39 +15,46 @@ export default function Contact() {
 
   const [error, setError] = useState("");
 
-  const openGmail = (subject, body) => {
-    const url = new URL("https://mail.google.com/mail/");
+  const openGmail = (subject = "", body = "") => {
+    const url = new URL(GMAIL_COMPOSE_URL);
+
     url.searchParams.set("view", "cm");
     url.searchParams.set("fs", "1");
     url.searchParams.set("to", EMAIL);
-    url.searchParams.set("su", subject);
-    url.searchParams.set("body", body);
 
+    if (subject) url.searchParams.set("su", subject);
+    if (body) url.searchParams.set("body", body);
+
+    // Open Gmail in a new tab on desktop and mobile browsers.
     window.open(url.toString(), "_blank", "noopener,noreferrer");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+    const name = form.name.trim();
+    const email = form.email.trim();
+    const message = form.message.trim();
+
+    if (!name || !email || !message) {
       setError("Please fill in all fields.");
       return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Please enter a valid email address.");
       return;
     }
 
     setError("");
 
-    const subject = `Portfolio enquiry from ${form.name}`;
+    const subject = `Portfolio enquiry from ${name}`;
     const body = `Hello Umesh,
 
-${form.message}
+${message}
 
-From: ${form.name}
-Reply to: ${form.email}`;
+From: ${name}
+Reply to: ${email}`;
 
     openGmail(subject, body);
   };
@@ -59,51 +62,54 @@ Reply to: ${form.email}`;
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-gray-950 px-6 py-24 text-white"
+      className="relative overflow-hidden bg-gray-950 px-4 py-16 text-white sm:px-6 sm:py-20"
     >
-      {/* Background effects */}
-      <div className="pointer-events-none absolute left-0 top-20 h-72 w-72 rounded-full bg-blue-600/10 blur-[110px]" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-72 w-72 rounded-full bg-cyan-500/10 blur-[110px]" />
+      {/* Subtle background glow */}
+      <div className="pointer-events-none absolute left-0 top-20 h-56 w-56 rounded-full bg-blue-600/10 blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-0 right-0 h-56 w-56 rounded-full bg-cyan-500/10 blur-[100px]" />
 
-      <div className="relative mx-auto max-w-6xl">
+      <div className="relative mx-auto max-w-5xl">
         {/* Heading */}
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-cyan-400">
+        <div className="mb-9 text-center sm:mb-10">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-cyan-400 sm:text-sm">
             Let's connect
           </p>
 
-          <h2 className="text-4xl font-extrabold sm:text-5xl">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">
             Get In <span className="text-cyan-400">Touch</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl leading-7 text-gray-400">
-            Looking for a MERN Stack Developer or have an exciting project? I
-            would love to hear from you. Let's build something great together.
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-gray-400 sm:text-base">
+            Looking for a MERN Stack Developer or have an exciting project?
+            Let's build something great together.
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          {/* Left column */}
-          <div className="space-y-5">
+        <div className="grid items-start gap-5 lg:grid-cols-2 lg:gap-6">
+          {/* Contact details */}
+          <div className="space-y-3">
             {/* Email card */}
             <a
-              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}`}
+              href={`${GMAIL_COMPOSE_URL}?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}`}
               target="_blank"
-              rel="noreferrer"
-              className="group flex items-center gap-5 rounded-2xl border border-white/10 bg-gray-900/80 p-5 transition duration-300 hover:-translate-y-1 hover:border-cyan-400/50 hover:bg-gray-900 hover:shadow-xl hover:shadow-cyan-500/5"
+              rel="noopener noreferrer"
+              aria-label="Email Umesh using Gmail"
+              className="group flex min-w-0 items-center gap-3 rounded-xl border border-white/10 bg-gray-900/80 p-3 transition hover:border-cyan-400/50 hover:bg-gray-900 sm:gap-4 sm:p-4"
             >
-              <div className="rounded-xl bg-cyan-400/10 p-4 text-cyan-400 transition group-hover:bg-cyan-400 group-hover:text-gray-950">
-                <Mail size={25} />
+              <div className="shrink-0 rounded-lg bg-cyan-400/10 p-3 text-cyan-400 transition group-hover:bg-cyan-400 group-hover:text-gray-950">
+                <Mail size={21} />
               </div>
 
               <div className="min-w-0 flex-1">
-                <h3 className="font-bold">Email Me</h3>
-                <p className="mt-1 break-all text-sm text-gray-400">{EMAIL}</p>
+                <h3 className="text-sm font-semibold sm:text-base">Email Me</h3>
+                <p className="mt-1 break-all text-xs text-gray-400 sm:text-sm">
+                  {EMAIL}
+                </p>
               </div>
 
               <ArrowUpRight
+                size={18}
                 className="shrink-0 text-gray-500 transition group-hover:text-cyan-400"
-                size={20}
               />
             </a>
 
@@ -111,84 +117,90 @@ Reply to: ${form.email}`;
             <a
               href="tel:+917983145053"
               aria-label="Call Umesh Kumar at +91 7983145053"
-              className="group flex items-center gap-5 rounded-2xl border border-white/10 bg-gray-900/80 p-5 transition duration-300 hover:-translate-y-1 hover:border-blue-400/50 hover:bg-gray-900 hover:shadow-xl hover:shadow-blue-500/5"
+              className="group flex items-center gap-3 rounded-xl border border-white/10 bg-gray-900/80 p-3 transition hover:border-blue-400/50 hover:bg-gray-900 sm:gap-4 sm:p-4"
             >
-              <div className="rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-400/10 p-4 text-blue-300 transition group-hover:text-cyan-300">
-                <Phone size={25} />
+              <div className="shrink-0 rounded-lg bg-blue-400/10 p-3 text-blue-300">
+                <Phone size={21} />
               </div>
 
               <div className="min-w-0 flex-1">
-                <h3 className="font-bold">Phone</h3>
-                <p className="mt-1 text-sm text-gray-400 transition group-hover:text-cyan-300">
+                <h3 className="text-sm font-semibold sm:text-base">Phone</h3>
+                <p className="mt-1 text-xs text-gray-400 sm:text-sm">
                   +91 7983145053
                 </p>
               </div>
 
               <ArrowUpRight
-                size={20}
+                size={18}
                 className="shrink-0 text-gray-500 transition group-hover:text-cyan-400"
               />
             </a>
 
             {/* Location card */}
-            <div className="flex items-center gap-5 rounded-2xl border border-white/10 bg-gray-900/80 p-5 transition duration-300 hover:border-cyan-400/30">
-              <div className="rounded-xl bg-blue-400/10 p-4 text-blue-400">
-                <MapPin size={25} />
+            <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-gray-900/80 p-3 sm:gap-4 sm:p-4">
+              <div className="shrink-0 rounded-lg bg-blue-400/10 p-3 text-blue-400">
+                <MapPin size={21} />
               </div>
 
-              <div>
-                <h3 className="font-bold">Location</h3>
-                <p className="mt-1 text-sm text-gray-400">
+              <div className="min-w-0">
+                <h3 className="text-sm font-semibold sm:text-base">Location</h3>
+                <p className="mt-1 text-xs text-gray-400 sm:text-sm">
                   Agra, Uttar Pradesh, India
                 </p>
               </div>
             </div>
 
             {/* Social links */}
-            <div className="rounded-2xl border border-white/10 bg-gray-900/80 p-6">
-              <h3 className="mb-4 font-bold">Connect with me</h3>
+            <div className="rounded-xl border border-white/10 bg-gray-900/80 p-4">
+              <h3 className="mb-3 text-sm font-semibold sm:text-base">
+                Connect with me
+              </h3>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2">
                 <a
                   href="https://github.com/umesh590"
                   target="_blank"
-                  rel="noreferrer"
-                  aria-label="GitHub"
-                  className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm text-gray-300 transition hover:border-white/30 hover:bg-white/5 hover:text-white"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub profile"
+                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-gray-300 transition hover:border-white/30 hover:bg-white/5 hover:text-white sm:text-sm"
                 >
-                  <FaGithub size={19} />
+                  <FaGithub size={17} />
                   GitHub
                 </a>
 
                 <a
                   href="https://www.linkedin.com/in/umesh-kumar111/"
                   target="_blank"
-                  rel="noreferrer"
-                  aria-label="LinkedIn"
-                  className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm text-gray-300 transition hover:border-blue-400/40 hover:bg-blue-400/10 hover:text-blue-400"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn profile"
+                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-gray-300 transition hover:border-blue-400/40 hover:bg-blue-400/10 hover:text-blue-400 sm:text-sm"
                 >
-                  <FaLinkedin size={19} />
+                  <FaLinkedin size={17} />
                   LinkedIn
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Right column: Contact form */}
-          <div className="rounded-3xl border border-white/10 bg-gray-900/80 p-6 shadow-2xl shadow-blue-950/20 sm:p-8">
-            <div className="mb-7">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
-                <Send size={23} />
+          {/* Compact contact form */}
+          <div className="rounded-2xl border border-white/10 bg-gray-900/80 p-4 shadow-xl shadow-blue-950/20 sm:p-6">
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-cyan-400/10 text-cyan-400">
+                <Send size={20} />
               </div>
 
-              <h3 className="text-2xl font-bold">Send Me a Message</h3>
+              <div>
+                <h3 className="text-lg font-bold sm:text-xl">
+                  Send Me a Message
+                </h3>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-3">
               <div>
                 <label
                   htmlFor="contact-name"
-                  className="mb-2 block text-sm font-medium text-gray-300"
+                  className="mb-1.5 block text-sm font-medium text-gray-300"
                 >
                   Your Name
                 </label>
@@ -200,7 +212,7 @@ Reply to: ${form.email}`;
                   placeholder="Enter your name"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full rounded-xl border border-white/10 bg-gray-950 px-4 py-3 text-white outline-none transition placeholder:text-gray-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/10"
+                  className="w-full rounded-lg border border-white/10 bg-gray-950 px-3 py-2.5 text-sm text-white outline-none transition placeholder:text-gray-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/10"
                   required
                 />
               </div>
@@ -208,7 +220,7 @@ Reply to: ${form.email}`;
               <div>
                 <label
                   htmlFor="contact-email"
-                  className="mb-2 block text-sm font-medium text-gray-300"
+                  className="mb-1.5 block text-sm font-medium text-gray-300"
                 >
                   Your Email
                 </label>
@@ -220,7 +232,7 @@ Reply to: ${form.email}`;
                   placeholder="you@example.com"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full rounded-xl border border-white/10 bg-gray-950 px-4 py-3 text-white outline-none transition placeholder:text-gray-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/10"
+                  className="w-full rounded-lg border border-white/10 bg-gray-950 px-3 py-2.5 text-sm text-white outline-none transition placeholder:text-gray-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/10"
                   required
                 />
               </div>
@@ -228,20 +240,20 @@ Reply to: ${form.email}`;
               <div>
                 <label
                   htmlFor="contact-message"
-                  className="mb-2 block text-sm font-medium text-gray-300"
+                  className="mb-1.5 block text-sm font-medium text-gray-300"
                 >
                   Message
                 </label>
 
                 <textarea
                   id="contact-message"
-                  rows={4}
-                  placeholder="Tell me about the opportunity or project..."
+                  rows={3}
+                  placeholder="Write your message..."
                   value={form.message}
                   onChange={(e) =>
                     setForm({ ...form, message: e.target.value })
                   }
-                  className="w-full resize-y rounded-xl border border-white/10 bg-gray-950 px-4 py-3 text-white outline-none transition placeholder:text-gray-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/10"
+                  className="w-full resize-y rounded-lg border border-white/10 bg-gray-950 px-3 py-2.5 text-sm text-white outline-none transition placeholder:text-gray-600 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/10"
                   required
                 />
               </div>
@@ -254,13 +266,13 @@ Reply to: ${form.email}`;
 
               <button
                 type="submit"
-                className="group flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-4 font-bold text-gray-950 shadow-lg shadow-cyan-500/10 transition duration-300 hover:-translate-y-1 hover:shadow-cyan-500/25 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-gray-900"
+                className="group flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-3 text-sm font-bold text-gray-950 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-gray-900"
               >
-                <Mail size={19} />
+                <Mail size={17} />
                 Contact Me via Gmail
                 <ArrowUpRight
-                  size={19}
-                  className="transition group-hover:translate-x-1 group-hover:-translate-y-1"
+                  size={17}
+                  className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
               </button>
             </form>

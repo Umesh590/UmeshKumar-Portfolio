@@ -12,7 +12,7 @@ const skillGroups = [
     skills: ["Node.js", "Express.js", "REST APIs", "JWT Authentication"],
   },
   {
-    title: "Database & State",
+    title: "Database",
     icon: Database,
     skills: ["MongoDB", "Mongoose", "SQL", "MySQL", "PostgreSQL"],
   },

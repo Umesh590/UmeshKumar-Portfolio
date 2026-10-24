@@ -94,7 +94,7 @@ export default function Hero() {
                   e.preventDefault();
 
                   window.location.href =
-                    "intent://mail.google.com/mail/?view=cm&fs=1&to=umeshjha7890%40gmail.com#Intent;scheme=https;package=com.google.android.gm;end";
+                    "intent://mail.google.com/mail/?view=cm%26fs=1%26to=umeshjha7890%40gmail.com#Intent;scheme=https;package=com.google.android.gm;end";
                 }
               }}
               className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-gray-400 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-300"
